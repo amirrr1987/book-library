@@ -4,9 +4,16 @@ import { AppService } from './app.service';
 import { BooksModule } from './books/books.module';
 import { AuthorsModule } from './authors/authors.module';
 import { GenresModule } from './genres/genres.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { pgConfig } from './config/pgConfig';
 
 @Module({
-  imports: [BooksModule, AuthorsModule, GenresModule],
+  imports: [
+    TypeOrmModule.forRoot(pgConfig),
+    BooksModule,
+    AuthorsModule,
+    GenresModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
