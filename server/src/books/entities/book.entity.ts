@@ -1,10 +1,13 @@
+import { AuthorEntity } from 'src/authors/entities/author.entity';
 import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  Entity,
 } from 'typeorm';
 
+@Entity({ name: 'books' })
 export class BookEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -28,7 +31,7 @@ export class BookEntity {
   available: boolean;
 
   @Column({ type: 'varchar', length: 255 })
-  author: string;
+  author: AuthorEntity;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
