@@ -17,9 +17,8 @@ export class CreateBookDto {
   @IsPositive()
   price: number;
 
-  @IsString()
-  @Length(3, 50)
-  genre: string;
+  @IsNumber()
+  genres: number[];
 
   @IsOptional()
   @IsString()
@@ -32,7 +31,6 @@ export class CreateBookDto {
   @IsBoolean()
   available: boolean;
 
-  @IsString()
-  @Length(3, 100)
-  author: string;
+  @IsNumber()
+  authors: number[];
 }

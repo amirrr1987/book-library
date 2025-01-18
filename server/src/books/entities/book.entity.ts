@@ -1,10 +1,13 @@
-import { AuthorEntity } from 'src/authors/entities/author.entity';
+import { AuthorEntity } from '../../authors/entities/author.entity';
+import { GenreEntity } from '../../genres/entities/genre.entity';
 import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
   Entity,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @Entity({ name: 'books' })
@@ -18,9 +21,6 @@ export class BookEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
 
-  @Column({ type: 'varchar', length: 100 })
-  genre: string;
-
   @Column({ type: 'text', nullable: true })
   description?: string;
 
@@ -30,8 +30,13 @@ export class BookEntity {
   @Column({ type: 'boolean', default: true })
   available: boolean;
 
-  @Column({ type: 'varchar', length: 255 })
-  author: AuthorEntity;
+  @ManyToMany(() => GenreEntity, { eager: true })
+  @JoinTable({ name: 'books_genres' })
+  genres: GenreEntity[];
+
+  @ManyToMany(() => AuthorEntity, { eager: true })
+  @JoinTable({ name: 'books_authors' })
+  authors: AuthorEntity[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
