@@ -16,8 +16,8 @@ export class GenresController {
   constructor(private readonly genresService: GenresService) {}
 
   @Post()
-  create(@Body() createGenreDto: CreateGenreDto) {
-    return this.genresService.create(createGenreDto);
+  create(@Body() dto: CreateGenreDto) {
+    return this.genresService.create(dto);
   }
 
   @Get()
@@ -31,8 +31,8 @@ export class GenresController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto) {
-    return this.genresService.update(+id, updateGenreDto);
+  update(@Param('id') id: string, @Body() dto: UpdateGenreDto) {
+    return this.genresService.update(+id, dto);
   }
 
   @Delete(':id')
