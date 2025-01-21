@@ -30,11 +30,11 @@ export class BookEntity {
   @Column({ type: 'boolean', default: true })
   available: boolean;
 
-  @ManyToMany(() => GenreEntity, { eager: true })
+  @ManyToMany(() => GenreEntity, (genre) => genre.id, { eager: true })
   @JoinTable({ name: 'books_genres' })
   genres: GenreEntity[];
 
-  @ManyToMany(() => AuthorEntity, { eager: true })
+  @ManyToMany(() => AuthorEntity, (author) => author.id, { eager: true })
   @JoinTable({ name: 'books_authors' })
   authors: AuthorEntity[];
 

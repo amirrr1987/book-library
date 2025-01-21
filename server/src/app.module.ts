@@ -10,8 +10,8 @@ import { pgConfig } from './config/pgConfig';
 @Module({
   imports: [
     TypeOrmModule.forRoot(pgConfig),
-    BooksModule,
     AuthorsModule,
+    BooksModule,
     GenresModule,
   ],
   controllers: [AppController],

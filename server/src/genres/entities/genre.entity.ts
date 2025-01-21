@@ -8,23 +8,23 @@ import {
   ManyToMany,
 } from 'typeorm';
 
-@Entity({ name: 'genres' }) // Specifies the table name in the database
+@Entity({ name: 'genres' })
 export class GenreEntity {
   @PrimaryGeneratedColumn()
-  id: number; // Auto-generated primary key
+  id: number;
 
   @Column({ type: 'varchar', length: 100 })
-  label: string; // Genre label with a max length of 100 characters, must be unique
+  label: string;
 
   @Column({ type: 'varchar', length: 100, unique: true })
-  value: string; // Internal value with a max length of 100 characters, must be unique
+  value: string;
 
-  @ManyToMany(() => BookEntity, (book) => book.id) // Many-to-many relationship with BookEntity
+  @ManyToMany(() => BookEntity, (book) => book.id)
   books: BookEntity[];
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date; // Auto-populated timestamp for creation
+  createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: Date; // Auto-updated timestamp for modifications
+  updatedAt: Date;
 }

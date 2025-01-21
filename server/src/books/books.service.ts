@@ -12,7 +12,8 @@ export class BooksService {
     private readonly bookRepository: Repository<BookEntity>,
   ) {}
   async create(dto: CreateBookDto) {
-    const book = this.bookRepository.create(dto);
+    console.log('🚀 ~ BooksService ~ create ~ dto:', dto);
+    const book = this.bookRepository.create();
     return await this.bookRepository.save(book);
   }
 
@@ -25,7 +26,8 @@ export class BooksService {
   }
 
   async update(id: number, dto: UpdateBookDto) {
-    return await this.bookRepository.update(id, dto);
+    console.log('🚀 ~ BooksService ~ update ~ dto:', dto);
+    return await this.bookRepository.update(id, {});
   }
 
   async remove(id: number) {

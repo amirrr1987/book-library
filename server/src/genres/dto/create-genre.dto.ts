@@ -1,11 +1,29 @@
-import { IsString, Length } from 'class-validator';
+import {
+  IsArray,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export class CreateGenreDto {
   @IsString()
   @Length(3, 100)
-  label: string; // Genre label must be a string between 3 and 100 characters
+  label: string;
 
   @IsString()
   @Length(3, 100)
-  value: string; // Genre value must be a string between 3 and 100 characters
+  value: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsNumber({}, { each: true })
+  @IsPositive({ each: true })
+  books: number[];
 }
+// {
+//   label: "is Comedy",
+//     value: "compedy",
+//       books: [1,2,3]
+// }

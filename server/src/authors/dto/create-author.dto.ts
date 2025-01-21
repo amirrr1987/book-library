@@ -12,5 +12,7 @@ export class CreateAuthorDto {
   lastName: string;
 
   @IsArray()
-  books: string[];
+  @IsNumber({}, { each: true })
+  @IsPositive({ each: true })
+  books: number[];
 }

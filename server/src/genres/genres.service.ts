@@ -12,7 +12,8 @@ export class GenresService {
     private readonly genreRepository: Repository<GenreEntity>,
   ) {}
   async create(dto: CreateGenreDto) {
-    const genre = this.genreRepository.create(dto);
+    console.log('🚀 ~ GenresService ~ create ~ dto:', dto);
+    const genre = this.genreRepository.create();
     return await this.genreRepository.save(genre);
   }
 
@@ -25,7 +26,8 @@ export class GenresService {
   }
 
   async update(id: number, dto: UpdateGenreDto) {
-    return await this.genreRepository.update(id, dto);
+    console.log('🚀 ~ GenresService ~ update ~ dto:', dto);
+    return await this.genreRepository.update(id, {});
   }
 
   async remove(id: number) {

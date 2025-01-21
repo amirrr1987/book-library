@@ -6,6 +6,7 @@ import {
   IsOptional,
   IsBoolean,
   IsDateString,
+  IsArray,
 } from 'class-validator';
 
 export class CreateBookDto {
@@ -31,6 +32,8 @@ export class CreateBookDto {
   @IsBoolean()
   available: boolean;
 
-  @IsNumber()
+  @IsArray()
+  @IsNumber({}, { each: true })
+  @IsPositive({ each: true })
   authors: number[];
 }

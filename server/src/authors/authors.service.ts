@@ -12,7 +12,8 @@ export class AuthorsService {
     private readonly authorRepository: Repository<AuthorEntity>,
   ) {}
   async create(dto: CreateAuthorDto) {
-    const author = this.authorRepository.create(dto);
+    console.log('🚀 ~ AuthorsService ~ create ~ dto:', dto);
+    const author = this.authorRepository.create({});
     return await this.authorRepository.save(author);
   }
 
@@ -25,7 +26,8 @@ export class AuthorsService {
   }
 
   async update(id: number, dto: UpdateAuthorDto) {
-    return await this.authorRepository.update(id, dto);
+    console.log('🚀 ~ AuthorsService ~ update ~ dto:', dto);
+    return await this.authorRepository.update(id, {});
   }
 
   async remove(id: number) {
