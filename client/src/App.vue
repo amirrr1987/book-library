@@ -5,70 +5,18 @@
     :locale="appSettingStore.locale"
     :direction="appSettingStore.directionStorage"
   >
-    <AppSettingDrawer v-model:open="open" @ok="open = false" @close="open = false" />
-
-    <Layout class="h-screen">
-      <!-- Sidebar -->
-      <AppLayoutSlider />
-
-      <!-- Main Content -->
-      <Layout>
-        <LayoutHeader class="!pe-4 !ps-0 flex justify-between items-center">
-          <div>
-            <Button type="primary" @click="open = true">
-              <Icon icon="icon-park-outline:setting" />
-            </Button>
-          </div>
-
-          <div>
-            <Dropdown :trigger="['click']">
-              <Button type="link" class="ant-dropdown-link" @click.prevent> Click me </Button>
-              <template #overlay>
-                <Menu>
-                  <MenuItem key="0">
-                    <a href="http://www.alipay.com/">1st menu item</a>
-                  </MenuItem>
-                  <MenuItem key="1">
-                    <a href="http://www.taobao.com/">2nd menu item</a>
-                  </MenuItem>
-                  <MenuDivider />
-                  <MenuItem key="3">3rd menu item</MenuItem>
-                </Menu>
-              </template>
-            </Dropdown>
-
-            <Button type="primary" @click="open = true">
-              <Icon icon="icon-park-outline:setting" />
-            </Button>
-          </div>
-        </LayoutHeader>
-
-        <LayoutContent class="py-0 px-0">
-
-
-          <Tabs
-            v-model:activeKey="activeKey"
-            type="editable-card"
-            hide-add
-            @edit="handleTabEdit"
-            animated
-          >
-            <TabPane v-for="element in navList" :key="element.key" :tab="element.title" :closable="element.closable" />
-
-          </Tabs>
-
-          <div>
-            <div class="overflow-y-auto p-4">
-              <router-view v-slot="{ Component }">
-                <transition name="fade">
-                  <component :is="Component" :key="activeKey" />
-                </transition>
-              </router-view>
-            </div>
-          </div>
-        </LayoutContent>
-      </Layout>
-    </Layout>
+    <AppLayoutHeader />
+    <!--    <Content />-->
+    <!--    <AppLayoutContent />-->
+    <!--    <AppSettingDrawer />-->
+    <!--    <AppSettingDrawer v-model:open="open" @ok="open = false" @close="open = false" />-->
+    <!--    <Layout class="h-screen">-->
+    <!--      <AppLayoutSlider />-->
+    <!--      <Layout>-->
+    <!--        <AppLayoutHeader />-->
+    <!--        <AppLayoutContent />-->
+    <!--      </Layout>-->
+    <!--    </Layout>-->
   </ConfigProvider>
 </template>
 
@@ -87,20 +35,15 @@ import {
   Tabs,
   TabPane,
 } from 'ant-design-vue/es'
-import { Icon } from '@iconify/vue'
 import { useAppSettingStore } from '@/stores/appSetting.store.ts'
-import AppSettingDrawer from './components/AppSettingDrawer.vue'
-import {reactive, ref, watch} from 'vue'
-import { RouterView, useRouter, useRoute } from 'vue-router'
-import draggable from 'vuedraggable'
-import AppLayoutSlider from "@/components/AppLayoutSlider.vue";
 
+import { reactive, ref, watch } from 'vue'
+import { RouterView, useRouter, useRoute } from 'vue-router'
+import Content from '@/components/App/Layout/Content.vue'
 const appSettingStore = useAppSettingStore()
 const router = useRouter()
 const route = useRoute()
 const open = ref<boolean>(true)
-
-
 
 // State for managing tabs
 const tabs = ref<Array<{ key: string; title: string; closable: boolean }>>([
@@ -109,7 +52,6 @@ const tabs = ref<Array<{ key: string; title: string; closable: boolean }>>([
 const activeKey = ref<string>('TheHome')
 
 // Add a new tab when a menu item is selected
-
 
 // Handle tab edit (remove)
 const handleTabEdit = (targetKey: string, action: string) => {
