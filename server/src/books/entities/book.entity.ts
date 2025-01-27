@@ -1,14 +1,14 @@
 import { AuthorEntity } from '../../authors/entities/author.entity';
-import { GenreEntity } from '../../genres/entities/genre.entity';
 import {
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
   Entity,
-  ManyToMany,
   JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
+import { BorrowEntity } from '../../borrows/entities/borrow.entity';
 
 @Entity({ name: 'books' })
 export class BookEntity {
@@ -18,9 +18,6 @@ export class BookEntity {
   @Column({ type: 'varchar', length: 255 })
   title: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  price: number;
-
   @Column({ type: 'text', nullable: true })
   description?: string;
 
@@ -28,15 +25,15 @@ export class BookEntity {
   publishedDate: Date;
 
   @Column({ type: 'boolean', default: true })
-  available: boolean;
-
-  @ManyToMany(() => GenreEntity, (genre) => genre.id, { eager: true })
-  @JoinTable({ name: 'books_genres' })
-  genres: GenreEntity[];
+  isAvailable: boolean;
 
   @ManyToMany(() => AuthorEntity, (author) => author.id, { eager: true })
   @JoinTable({ name: 'books_authors' })
   authors: AuthorEntity[];
+
+  @ManyToMany(() => BorrowEntity, (borrow) => borrow.id, { eager: true })
+  @JoinTable({ name: 'books_borrows' })
+  borrows: BorrowEntity[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
