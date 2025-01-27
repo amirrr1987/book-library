@@ -9,29 +9,11 @@
 
     <Layout class="h-screen">
       <!-- Sidebar -->
-      <LayoutSider class="overflow-y-auto h-screen shadow-lg" collapsible theme="dark">
-        <div class="h-16 flex justify-center items-center text-primary">Nahal</div>
-        <Menu mode="inline" @select="handleMenuSelect">
-          <MenuItem key="TheHome">
-            Home
-            <template #icon>
-              <Icon icon="tabler:home" />
-            </template>
-          </MenuItem>
-
-          <MenuItem key="TheAbout">
-            About
-            <template #icon>
-              <Icon icon="tabler:info-circle" />
-            </template>
-          </MenuItem>
-          <MenuDivider />
-        </Menu>
-      </LayoutSider>
+      <AppLayoutSlider />
 
       <!-- Main Content -->
       <Layout>
-        <LayoutHeader class="!px-4 flex justify-between items-center">
+        <LayoutHeader class="!pe-4 !ps-0 flex justify-between items-center">
           <div>
             <Button type="primary" @click="open = true">
               <Icon icon="icon-park-outline:setting" />
@@ -61,17 +43,27 @@
           </div>
         </LayoutHeader>
 
-        <LayoutContent class="py-0 px-8">
-          <!-- Tabs -->
-          <Tabs v-model:activeKey="activeKey" type="editable-card" hide-add @edit="handleTabEdit">
-            <TabPane v-for="tab in tabs" :key="tab.key" :tab="tab.title" :closable="tab.closable" />
+        <LayoutContent class="py-0 px-0">
+
+
+          <Tabs
+            v-model:activeKey="activeKey"
+            type="editable-card"
+            hide-add
+            @edit="handleTabEdit"
+            animated
+          >
+            <TabPane v-for="element in navList" :key="element.key" :tab="element.title" :closable="element.closable" />
+
           </Tabs>
 
           <div>
-            <div class="overflow-y-auto">
-              <Transition name="fade">
-                <RouterView :key="activeKey" />
-              </Transition>
+            <div class="overflow-y-auto p-4">
+              <router-view v-slot="{ Component }">
+                <transition name="fade">
+                  <component :is="Component" :key="activeKey" />
+                </transition>
+              </router-view>
             </div>
           </div>
         </LayoutContent>
@@ -98,31 +90,26 @@ import {
 import { Icon } from '@iconify/vue'
 import { useAppSettingStore } from '@/stores/appSetting.store.ts'
 import AppSettingDrawer from './components/AppSettingDrawer.vue'
-import { ref, watch } from 'vue'
+import {reactive, ref, watch} from 'vue'
 import { RouterView, useRouter, useRoute } from 'vue-router'
+import draggable from 'vuedraggable'
+import AppLayoutSlider from "@/components/AppLayoutSlider.vue";
 
 const appSettingStore = useAppSettingStore()
 const router = useRouter()
 const route = useRoute()
 const open = ref<boolean>(true)
 
+
+
 // State for managing tabs
-const tabs = ref<Array<{ key: string; title: string; closable: boolean }>>([])
-const activeKey = ref<string>('')
+const tabs = ref<Array<{ key: string; title: string; closable: boolean }>>([
+  { key: 'TheHome', title: 'Home', closable: false },
+])
+const activeKey = ref<string>('TheHome')
 
 // Add a new tab when a menu item is selected
-const handleMenuSelect = ({ key }: { key: string }) => {
-  const tabExists = tabs.value.some((tab) => tab.key === key)
-  if (!tabExists) {
-    tabs.value.push({
-      key,
-      title: key,
-      closable: true,
-    })
-  }
-  activeKey.value = key
-  router.push({ name: key }) // Navigate to the corresponding route
-}
+
 
 // Handle tab edit (remove)
 const handleTabEdit = (targetKey: string, action: string) => {
@@ -143,7 +130,6 @@ const handleTabEdit = (targetKey: string, action: string) => {
 watch(
   () => route.name,
   (newRouteName) => {
-    console.log('🚀 ~ newRouteName:', newRouteName)
     if (newRouteName && !tabs.value.some((tab) => tab.key === newRouteName)) {
       tabs.value.push({
         key: newRouteName as string,
@@ -162,10 +148,20 @@ watch(activeKey, (newKey) => {
     router.push({ name: newKey })
   }
 })
+
+// Handle drag end event
+const onDragEnd = () => {
+  // You can add any additional logic here if needed
+}
 </script>
 
 <style>
 .ant-tabs-top > .ant-tabs-nav {
   margin: 0 0 0px 0;
+}
+
+/* Transition styles */
+.flip-list-move {
+  transition: transform 0.3s ease;
 }
 </style>

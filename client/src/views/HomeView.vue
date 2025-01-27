@@ -1,7 +1,4 @@
-<script setup lang="ts">
-</script>
-
 <template>
-  <main>
-  </main>
+  <section class="home"></section>
 </template>
+<script setup lang="ts"></script>
